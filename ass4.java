@@ -1,39 +1,89 @@
-// Java program to find all permuttions of a given string using recursion.
+// A graphics application allows users to draw different shapes like Circles and Rectangles. Each shape should:
+// 1. Have a color.
+// 2. Implement a method to calculate area and draw the shape.
+// 3. Circle: Area = π * r2
+// 4. Rectangle: Area = length * breadth
+// Define an abstract class Shape with methods calculateArea() and draw(), then implement subclasses (Circle, Rectangle). 
+// Write a Java program to display the areas and draw shapes.
 
 import java.util.Scanner;
-class Permutations {
-    // Function to generate all permutations of a string
-    public void permute(String str, String ans) {
-        // If the string is empty, print the accumulated answer
-        if (str.length() == 0) {
-            System.out.println(ans);
-            return;
-        }
-        // Loop through each character in the string
-        for (int i = 0; i < str.length(); i++) {
-            // Get the current character
-            char ch = str.charAt(i);
-            // Get the remaining characters after removing the current character
-            String ros = str.substring(0, i) + str.substring(i + 1);
-            // Recur with the remaining characters and the accumulated answer
-            permute(ros, ans + ch);
-        }
+abstract class Shape {
+    String color;
+
+    public Shape(String color) {
+        this.color = color;
+    }
+
+    abstract double calculateArea();
+    abstract void draw();
+}
+
+class Circle extends Shape {
+    double radius;
+
+    public Circle(String color, double radius) {
+        super(color);
+        this.radius = radius;
+    }
+
+    @Override
+    double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+
+    @Override
+    void draw() {
+        System.out.println("Drawing a " + color + " circle with radius " + radius);
+    }
+}
+
+class Rectangle extends Shape {
+    double length;
+    double breadth;
+
+    public Rectangle(String color, double length, double breadth) {
+        super(color);
+        this.length = length;
+        this.breadth = breadth;
+    }
+
+    @Override
+    double calculateArea() {
+        return length * breadth;
+    }
+
+    @Override
+    void draw() {
+        System.out.println("Drawing a " + color + " rectangle with length " + length + " and breadth " + breadth);
     }
 }
 
 public class ass4 {
     public static void main(String[] args) {
-        // Create a Scanner object to read input from the user
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a string: ");
-        String str = sc.nextLine();
-        // Create an object of the Permutations class
-        Permutations perm = new Permutations();
-        System.out.println("Permutations of the string are:");
-        // Call the permute method to generate and print all permutations
-        perm.permute(str, "");
-        // Close the scanner
-        sc.close();
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.print("Enter color for Circle: ");
+            String circleColor = scanner.nextLine();
+            System.out.print("Enter radius for Circle: ");
+            double radius = scanner.nextDouble();
+            Circle circle = new Circle(circleColor, radius);
+            System.out.println("Area of Circle: " + circle.calculateArea());
+            circle.draw();
+
+            System.out.print("Enter color for Rectangle: ");
+            scanner.nextLine(); // Consume newline
+            String rectangleColor = scanner.nextLine();
+            System.out.print("Enter length for Rectangle: ");
+            double length = scanner.nextDouble();
+            System.out.print("Enter breadth for Rectangle: ");
+            double breadth = scanner.nextDouble();
+            Rectangle rectangle = new Rectangle(rectangleColor, length, breadth);
+            System.out.println("Area of Rectangle: " + rectangle.calculateArea());
+            rectangle.draw();
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
     }
 }
-// done

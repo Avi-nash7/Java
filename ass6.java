@@ -1,37 +1,54 @@
-// A social media platform wants to automatically replace offensive words with *** in user-generated content. 
-// Given a list of bad words, replace them in the input text.
+//A company is developing an AI-powered Virtual Assistant that can both speak and translate languages.
+// 1. Define an interface Speaker with a method speak(String text).
+// 2. Define another interface Translator with a method translate(String text, String language).
+// 3. Implement a class AIAssistant that inherits both interfaces and provides implementations for speech synthesis and language translation.
+// Task: Implement the system and demonstrate how an AI Assistant can both speak and translate text.
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-class ContentFilter {
-    private List<String> badWords;
+interface Speaker {
+    void speak(String text) throws Exception;
+}
 
-    public ContentFilter(List<String> badWords) {
-        this.badWords = badWords;
+interface Translator {
+    String translate(String text, String language) throws Exception;
+}
+
+class AIAssistant implements Speaker, Translator {
+    @Override
+    public void speak(String text) throws Exception {
+        if (text == null || text.isEmpty()) {
+            throw new Exception("Text cannot be null or empty.");
+        }
+        System.out.println("AI Assistant says: " + text);
     }
 
-    public String filterContent(String content) {
-        for (String badWord : badWords) {
-            content = content.replaceAll("(?i)" + badWord, "***");
+    @Override
+    public String translate(String text, String language) throws Exception {
+        if (text == null || text.isEmpty()) {
+            throw new Exception("Text cannot be null or empty.");
         }
-        return content;
+        if (language == null || language.isEmpty()) {
+            throw new Exception("Language cannot be null or empty.");
+        }
+        // Simulating translation by appending the language to the text
+        return "Translated (" + language + "): " + text;
     }
 }
 
 public class ass6 {
     public static void main(String[] args) {
-        List<String> badWords = Arrays.asList("bad", "ugly", "wierd", "stupid");
-        ContentFilter filter = new ContentFilter(badWords);
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the content to filter: ");
-        String content = scanner.nextLine();
-
-        String filteredContent = filter.filterContent(content);
-        System.out.println("Filtered content: " + filteredContent);
-
-        scanner.close();
+        AIAssistant assistant = new AIAssistant();
+        
+        try {
+            // Demonstrating speaking
+            assistant.speak("Hello, how can I assist you today?");
+            
+            // Demonstrating translation
+            String userText = "User says: " + "Konnichiwa, ogenkidesuka ?";
+            String translatedText = assistant.translate("Hello, how are you?", "Japanese");
+            System.out.println(userText);
+            System.out.println(translatedText);
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e.getMessage());
+        }
     }
 }
-// done
